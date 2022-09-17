@@ -4,10 +4,10 @@
 
 #include "Arduino.h"
 
-#define THROTTLE_PEDAL_PIN              A0
-#define THROTTLE_COND_PIN               13
-#define CALIB_BTN_PIN                   7
-#define LED_STATUS_PIN                  12
+#define THROTTLE_PEDAL_PIN              A1
+#define THROTTLE_COND_PIN               0
+#define CALIB_BTN_PIN                   4
+#define LED_STATUS_PIN                  3
 
 #define NEW_MCU_FLG_ADDR                0
 
@@ -16,8 +16,8 @@
 #define THROTTLE_DEFAULT_BOTTOM_LIMIT   16
 
 
-#define BUTTON_CALIB_ENTRY_TIME         5000
-#define BUTTON_CALIB_CONFIRM_TIME       2000
+#define BUTTON_CALIB_ENTRY_TIME         2000
+#define BUTTON_CALIB_CONFIRM_TIME       1000
 
 #define CALIB_MENU_TIME_LED             250
 #define CALIB_CONFIRM_LED_TIME          100

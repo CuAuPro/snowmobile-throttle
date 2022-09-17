@@ -63,20 +63,20 @@ void setup()
   pinMode(THROTTLE_COND_PIN, OUTPUT);
   pinMode(LED_STATUS_PIN, OUTPUT);
 
-  Serial.begin(9600);
+  //Serial.begin(9600);
   if (EEPROM.read(NEW_MCU_FLG_ADDR)) // if value at address NEW_MCU_FLG_ADDR is not 0x00
   {
     EEPROM.write(NEW_MCU_FLG_ADDR, 0);
     g_bottomThrottleLimit = THROTTLE_DEFAULT_BOTTOM_LIMIT;
     EEPROM.put(THROTTLE_CALIB_VAL_ADDR, g_bottomThrottleLimit);
-    //Serial.write("First time MCU run. Var g_bottomThrottleLimit = ");
-    //Serial.println(g_bottomThrottleLimit);
+    ////Serial.write("First time MCU run. Var g_bottomThrottleLimit = ");
+    ////Serial.println(g_bottomThrottleLimit);
   }
   else
   {
     EEPROM.get(THROTTLE_CALIB_VAL_ADDR, g_bottomThrottleLimit);
-    Serial.write("Var g_bottomThrottleLimit = ");
-    Serial.println(g_bottomThrottleLimit);
+    //Serial.write("Var g_bottomThrottleLimit = ");
+    //Serial.println(g_bottomThrottleLimit);
   }
   
   
@@ -105,7 +105,7 @@ void loop()
   {
     if (throttleCutoffFlg == 1)
     {
-      Serial.write("Cut off throttle.\n");
+      //Serial.write("Cut off throttle.\n");
       throttleCutoffFlg = 0;
       digitalWrite(THROTTLE_COND_PIN, throttleCutoffFlg);
     } 
@@ -114,27 +114,28 @@ void loop()
   {
     if (throttleCutoffFlg == 0)
     {
-      Serial.write("Give back throttle.\n");
+      //Serial.write("Give back throttle.\n");
       throttleCutoffFlg = 1;
       digitalWrite(THROTTLE_COND_PIN, throttleCutoffFlg);
     } 
   }
-
+  
   /*CHECK FOR CALIB REQUEST=================================*/
   uint8_t calibMode = ButtonCheckPress(&ButtonCalibEntry);
   if (calibMode)
   {
-    Serial.write("Stepping into calibration.\n");
+    //Serial.write("Stepping into calibration.\n");
     uint8_t calib_status = calibrateThrottle(THROTTLE_PEDAL_PIN, &ButtonCalibConfirm);
     if (calib_status == 1)
     {
+      EEPROM.get(THROTTLE_CALIB_VAL_ADDR, g_bottomThrottleLimit);
       for (int i = 0;i<CALIB_CONFIRM_LED_BLINK_TIMES;i++)
       {
         sigLedStatus = !sigLedStatus;
         digitalWrite(LED_STATUS_PIN, sigLedStatus);
         delay(CALIB_CONFIRM_LED_TIME); //Here is intentionally delay()!
       }
-      Serial.write("Calibration completed.\n");
+      //Serial.write("Calibration completed.\n");
     }
     else
     {
